@@ -1,4 +1,5 @@
-// 
+/* SCRIPT.JS is the most important part of the project. Contains the functions that
+make the API work*/
     const fromCurrency = document.getElementById("fromCurrency");
     const toCurrency = document.getElementById("toCurrency");
     const amountInput = document.getElementById("amount");
@@ -44,7 +45,7 @@
       try {
         // Fetch requested currency from the the API
         const res = await fetch(`https://v6.exchangerate-api.com/v6/${apiKey}/pair/${from}/${to}/${amount}`);
-        const data = await res.json();
+        const data = await res.json();// It changes the response from the API (which comes as text) into usable JavaScript data (an object).
 
         if (data.result === "success") {
           result.textContent = `${amount} ${from} = ${data.conversion_result.toFixed(2)} ${to}`;
