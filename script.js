@@ -60,3 +60,33 @@ make the API work*/
 // 
     convertBtn.addEventListener("click", convertCurrency);// This listens for a click on the "Convert" button.
     loadCurrencies();// It calls the function that fetches all available currencies (USD, PHP, EUR, etc.) from the API and fills the dropdowns.
+
+
+    
+    document.addEventListener('DOMContentLoaded', function() {
+    const menuToggle = document.querySelector('.menu-toggle');
+    const nav = document.querySelector('nav');
+    const header = document.querySelector('header');
+    const navLinks = document.querySelectorAll('nav ul li a');
+
+    // Toggle Menu
+    menuToggle.addEventListener('click', () => {
+        nav.classList.toggle('active');
+    });
+
+    // Close Menu when clicking a link
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            nav.classList.remove('active');
+        });
+    });
+
+    // Scroll Effect
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 100) {
+            header.classList.add('scrolled'); // ✅ use class instead of inline style
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
+});
