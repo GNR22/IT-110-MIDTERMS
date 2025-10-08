@@ -3,3 +3,5 @@ https://app.exchangerate-api.com/dashboard
 
 API KEY
 268281b25b9e3259adec19da
+
+API account: gmail acocunt.

@@ -1,0 +1,81 @@
+script.js flow (currency converter):
+
+-->Grab elements from HTML
+
+const amount = document.getElementById("amount");
+const fromCurrency = document.getElementById("fromCurrency");
+const toCurrency = document.getElementById("toCurrency");
+const result = document.getElementById("result");
+const convertBtn = document.getElementById("convertBtn");
+
+
+These connect the JavaScript to your HTML inputs (amount, dropdowns, button, and result area).
+
+-->Load available currencies
+
+async function loadCurrencies() {
+    const res = await fetch("https://api.exchangerate-api.com/v4/latest/USD");
+    const data = await res.json();
+    const currencies = Object.keys(data.rates);
+
+    currencies.forEach(currency => {
+        let option1 = new Option(currency, currency);
+        let option2 = new Option(currency, currency);
+        fromCurrency.add(option1);
+        toCurrency.add(option2);
+    });
+
+    fromCurrency.value = "USD";
+    toCurrency.value = "EUR";
+}
+
+
+-Fetches currency rates from API.
+-Extracts all currency codes (USD, EUR, JPY...).
+-Fills the two <select> dropdowns with those codes.
+-Sets default values (USD → EUR).
+-Convert button click → run conversion
+
+convertBtn.addEventListener("click", convertCurrency);
+
+
+When user clicks "Convert", it runs convertCurrency().
+
+-->Conversion logic
+
+async function convertCurrency() {
+    const amountValue = amount.value;
+    const from = fromCurrency.value;
+    const to = toCurrency.value;
+
+    if (amountValue === "" || amountValue <= 0) {
+        result.innerText = "Enter a valid amount.";
+        return;
+    }
+
+    const res = await fetch(`https://api.exchangerate-api.com/v4/latest/${from}`);
+    const data = await res.json();
+    const rate = data.rates[to];
+    const converted = (amountValue * rate).toFixed(2);
+
+    result.innerText = `${amountValue} ${from} = ${converted} ${to}`;
+}
+
+
+-Takes user’s amount + selected currencies.
+-Fetches live exchange rates for the chosen "from" currency.
+-Gets the correct conversion rate for the "to" currency.
+-Multiplies the amount × rate.
+-Updates the result area with the final converted value.
+-Run once on page load
+
+loadCurrencies();
+
+
+Populates the dropdowns immediately when the page starts.
+
+✅ So basically:
+
+loadCurrencies() = fill dropdowns with options.
+
+convertCurrency() = do the math when button is clicked.
